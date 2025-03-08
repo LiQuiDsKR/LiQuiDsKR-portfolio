@@ -7,7 +7,7 @@ export default function Home() {
 
       <div className="text-center mt-20">
         <img
-          src="/LiQuiDsKR-portfolio/images/home/profile.png"
+          src="/images/home/profile.png"
           alt="이재형"
           width={200}
           height={200}
