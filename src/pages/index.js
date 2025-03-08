@@ -6,11 +6,11 @@ export default function Home() {
     <div className="min-h-screen flex flex-col justify-center items-center">
 
       <div className="text-center mt-20">
-        <Image
-          src="/images/home/profile.png" // 본인의 이미지 경로로 변경
+        <img
+          src="/LiQuiDsKR-portfolio/images/home/profile.png"
           alt="이재형"
-          width={150}
-          height={150}
+          width={200}
+          height={200}
           className="rounded-full mx-auto"
         />
         <h1 className="text-4xl font-semibold mt-4">이재형</h1>

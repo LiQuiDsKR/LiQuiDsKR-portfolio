@@ -35,20 +35,20 @@ export default function Header() {
       }`}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
-        <Link href="/">
+        <Link href="/LiQuiDsKR-portfolio">
           <span className="text-2xl font-bold cursor-pointer">liquidskr</span>
         </Link>
         <nav className="space-x-6">
-          <Link href="/projects" className="hover:text-gray-300">
+          <Link href="/LiQuiDsKR-portfolio/projects" className="hover:text-gray-300">
             Projects
           </Link>
-          <Link href="/skills" className="hover:text-gray-300">
+          <Link href="/LiQuiDsKR-portfolio/skills" className="hover:text-gray-300">
             Skills
           </Link>
-          <Link href="/contact" className="hover:text-gray-300">
+          <Link href="/LiQuiDsKR-portfolio/contact" className="hover:text-gray-300">
             Contact
           </Link>
-          <Link href="/personal" className="hover:text-gray-300">
+          <Link href="/LiQuiDsKR-portfolio/personal" className="hover:text-gray-300">
             Personal
           </Link>
           <button onClick={toggleDarkMode} className="hover:text-gray-300">

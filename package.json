@@ -2,14 +2,18 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://liquidskr.github.io/LiQuiDsKR-portfolio/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "echo. > out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
+    "gh-pages": "^6.3.0",
     "next": "15.2.1",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
