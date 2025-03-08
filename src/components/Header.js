@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,11 +42,14 @@ export default function Header() {
           <Link href="/projects" className="hover:text-gray-300">
             Projects
           </Link>
-          <Link href="/about" className="hover:text-gray-300">
-            About
+          <Link href="/skills" className="hover:text-gray-300">
+            Skills
           </Link>
           <Link href="/contact" className="hover:text-gray-300">
             Contact
+          </Link>
+          <Link href="/personal" className="hover:text-gray-300">
+            Personal
           </Link>
           <button onClick={toggleDarkMode} className="hover:text-gray-300">
             {isDarkMode ? "Light Mode" : "Dark Mode"}

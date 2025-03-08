@@ -21,13 +21,6 @@
   --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -36,17 +29,27 @@ body {
 
 /* Add dark mode styles */
 html.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 /* Add light mode styles */
 html.light {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
 }
 
-/* Light mode header text color */
-html.light header {
-  color: #171717;
+/* Add fade-in effect when the header is scrolled */
+.header-scrolled {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-default {
+  opacity: 0.8;
+  transform: translateY(-20px);
+}
+
+header {
+  transition: transform 0.3s, opacity 0.3s;
 }
