@@ -468,6 +468,35 @@ body {
     position: relative;
 }
 
+/* Aspiration & Contact 섹션 (데스크탑 포함 전역 스타일) */
+.contact-section,
+.aspiration-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.contact-section .contact-content,
+.contact-section .aspiration-content,
+.aspiration-section .aspiration-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    margin-bottom: 3rem;
+}
+
+.contact-section a {
+    color: var(--mint-color);
+    text-decoration: underline;
+}
+
+.contact-note {
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
 .title-en {
     font-size: 2.5rem;
     color: var(--mint-color);
@@ -968,7 +997,6 @@ body {
     background: var(--bg-card);
     padding: 3rem 0;
     border-top: 2px solid var(--border-color);
-    margin-top: 6rem;
 }
 
 .footer .container {
@@ -1064,12 +1092,12 @@ body {
     }
 
     /* 모바일에서만 패러다임 정의 줄바꿈 처리 */
-    .paradigm-definition .line-break-mobile {
+    .line-break-mobile {
         display: inline;
     }
 
     @media (max-width: 768px) {
-        .paradigm-definition .line-break-mobile {
+        .line-break-mobile {
             display: block;
         }
     }
@@ -1197,6 +1225,34 @@ body {
         transition: width 1s ease;
         border-radius: 8px;
     }
+
+/* Aspiration & Contact 섹션 스타일 */
+.aspiration-section,
+.contact-section {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+}
+
+.aspiration-section .aspiration-content,
+.contact-section .contact-content,
+.contact-section .aspiration-content {
+    font-size: 1rem;
+}
+
+.contact-section a {
+    color: var(--mint-color);
+    text-decoration: underline;
+}
+
+.contact-note {
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skill-progress { transition: none; }
+}
 
     /* 툴팁이 모바일에서 숨겨졌으므로 데이터 툴팁 텍스트가 있으면 아래에 표시 */
     .skill-item[data-has-tooltip="true"]::after {
