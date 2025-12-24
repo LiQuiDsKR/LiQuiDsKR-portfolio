@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개발자 이재형 포트폴리오</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <!-- 다크/라이트 모드 토글 -->
+    <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+
+    <!-- 네비게이션 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#home" class="logo">liquidskr</a>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#value" class="nav-link" data-section="value">Value</a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+                <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 스크롤 진행 바 -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Hero 섹션 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-wrapper">
+                <div class="hero-profile text-reveal">
+                    <div class="profile-image-wrapper">
+                        <img src="static/images/profile.png" alt="프로필 사진" class="profile-image">
+                    </div>
+                </div>
+                
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="text-reveal delay-1">안녕하세요,</span>
+                        <span class="text-reveal delay-2">개발자 이재형입니다.</span>
+                    </h1>
+                    <p class="hero-subtitle text-reveal delay-3">Full Stack Developer</p>
+                    <div class="hero-buttons text-reveal delay-4">
+                        <a href="#projects" class="btn btn-primary btn-glow">프로젝트 보기</a>
+                        <a href="https://github.com/LiQuiDsKR" target="_blank" class="btn btn-secondary">GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-decoration">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+                <div class="particles" id="particles"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value 섹션 -->
+    <section class="value-section" id="value">
+        <div class="container">
+            <div class="value-content">
+                <h2 class="section-title" data-scroll>
+                    <span class="title-en">Value</span>
+                    <span class="title-ko">가치관</span>
+                    <span class="title-underline"></span>
+                </h2>
+                
+                <div class="paradigm-story">
+                    <div class="story-part" data-scroll>
+                        <h3 class="paradigm-title-en">Paradigm</h3>
+                        <h4 class="paradigm-title-ko">패러다임</h4>
+                    </div>
+                    
+                    <div class="story-part story-spacing" data-scroll>
+                        <p class="paradigm-definition">같은 시대의 사람들의 견해나 생각을 규정하고 있는 테두리나 인식의 체계.</p>
+                    </div>
+                    
+                    <div class="story-part story-spacing-large" data-scroll>
+                        <p class="paradigm-message">저는 <span class="highlight-mint">패러다임</span>을 깨부수는 개발자가 되고 싶습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Projects</span>
+                <span class="title-ko">프로젝트</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="projects-grid">
+                
+                <div class="project-card" data-scroll>
+                    <div class="project-card-inner">
+                        <div class="project-image">
+                            <img src="static/images/projects/project1.jpg" alt="AVOID" class="project-img">
+                            <div class="project-overlay">
+                                <div class="overlay-content">
+                                    <span class="overlay-text">자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <div class="project-meta-left">
+                                    <div class="project-category">게임</div>
+                                    <div class="project-date">2025.11 ~ 현재</div>
+                                </div>
+                                <div class="project-type-tag">Personal</div>
+                            </div>
+                            <h3 class="project-title">AVOID</h3>
+                            <p class="project-subtitle">Unity 게임 프로젝트</p>
+                            <p class="project-description">Unity 기반 3D 모바일 게임입니다. 개인 프로젝트로 Unity 엔진을 활용하여 개발했습니다.</p>
+                            
+                            <div class="project-tech-section">
+                                <h4 class="tech-section-title">기술 스택</h4>
+                                <div class="project-tech">
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=unity" alt="Unity" class="tech-icon">
+                                        <span class="tech-name">Unity</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=cs" alt="C#" class="tech-icon">
+                                        <span class="tech-name">C#</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="project-links">
+                                
+                                <a href="#" 
+                                   target="_blank" 
+                                   class="project-link private-repo"
+                                   onclick="showPrivateRepoMessage(event)">
+                                    <span>GitHub  (Private)</span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-scroll>
+                    <div class="project-card-inner">
+                        <div class="project-image">
+                            <img src="static/images/projects/project2.jpg" alt="똑똑이" class="project-img">
+                            <div class="project-overlay">
+                                <div class="overlay-content">
+                                    <span class="overlay-text">자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <div class="project-meta-left">
+                                    <div class="project-category">모바일 앱</div>
+                                    <div class="project-date">2023.10 ~ 2024.01</div>
+                                </div>
+                                <div class="project-type-tag">Team</div>
+                            </div>
+                            <h3 class="project-title">똑똑이</h3>
+                            <p class="project-subtitle">공기구 대여반납 및 재고 관리 서비스</p>
+                            <p class="project-description">POSCO GY솔루션 외주 프로젝트로, 공기구 대여반납 및 재고 관리 서비스입니다. Java 서버, 관리자·사용자용 모바일 앱, 관리 대시보드를 개발했습니다.</p>
+                            
+                            <div class="project-tech-section">
+                                <h4 class="tech-section-title">기술 스택</h4>
+                                <div class="project-tech">
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=spring" alt="Spring" class="tech-icon">
+                                        <span class="tech-name">Spring</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=sqlite" alt="SQLite" class="tech-icon">
+                                        <span class="tech-name">SQLite</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android" class="tech-icon">
+                                        <span class="tech-name">Android</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=kotlin" alt="Kotlin" class="tech-icon">
+                                        <span class="tech-name">Kotlin</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="project-links">
+                                
+                                <a href="https://github.com/LiQuiDsKR/MrSmart" 
+                                   target="_blank" 
+                                   class="project-link "
+                                   >
+                                    <span>GitHub </span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-scroll>
+                    <div class="project-card-inner">
+                        <div class="project-image">
+                            <img src="static/images/projects/project3.jpg" alt="재형닷컴" class="project-img">
+                            <div class="project-overlay">
+                                <div class="overlay-content">
+                                    <span class="overlay-text">자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <div class="project-meta-left">
+                                    <div class="project-category">웹</div>
+                                    <div class="project-date">2024.08 ~ 현재</div>
+                                </div>
+                                <div class="project-type-tag">Personal</div>
+                            </div>
+                            <h3 class="project-title">재형닷컴</h3>
+                            <p class="project-subtitle">모바일게임 &#39;마피아42&#39; 서드파티 서비스</p>
+                            <p class="project-description">모바일게임 &#39;마피아42&#39; 서드파티 서비스입니다. Google Cloud Platform 기반 웹 서버를 구축하고 웹 프레임워크를 이용한 서비스 로직을 구현했습니다.</p>
+                            
+                            <div class="project-tech-section">
+                                <h4 class="tech-section-title">기술 스택</h4>
+                                <div class="project-tech">
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=gcp" alt="Google Cloud" class="tech-icon">
+                                        <span class="tech-name">Google Cloud</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=flask" alt="Flask" class="tech-icon">
+                                        <span class="tech-name">Flask</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=html" alt="HTML5" class="tech-icon">
+                                        <span class="tech-name">HTML5</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=css" alt="CSS3" class="tech-icon">
+                                        <span class="tech-name">CSS3</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=js" alt="JavaScript" class="tech-icon">
+                                        <span class="tech-name">JavaScript</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="project-links">
+                                
+                                <a href="#" 
+                                   target="_blank" 
+                                   class="project-link private-repo"
+                                   onclick="showPrivateRepoMessage(event)">
+                                    <span>GitHub  (Private)</span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                
+                                
+                                <a href="https://재형.com" target="_blank" class="project-link">
+                                    <span>서비스 링크</span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-scroll>
+                    <div class="project-card-inner">
+                        <div class="project-image">
+                            <img src="static/images/projects/project4.jpg" alt="로스트 시티" class="project-img">
+                            <div class="project-overlay">
+                                <div class="overlay-content">
+                                    <span class="overlay-text">자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <div class="project-meta-left">
+                                    <div class="project-category">웹</div>
+                                    <div class="project-date">2024.01</div>
+                                </div>
+                                <div class="project-type-tag">Personal</div>
+                            </div>
+                            <h3 class="project-title">로스트 시티</h3>
+                            <p class="project-subtitle">보드 게임 웹 구현</p>
+                            <p class="project-description">실존하는 보드 게임 &#39;로스트 시티&#39;의 웹 게임 버전입니다. 2인용 카드 게임을 웹 브라우저에서 즐길 수 있도록 구현했습니다.</p>
+                            
+                            <div class="project-tech-section">
+                                <h4 class="tech-section-title">기술 스택</h4>
+                                <div class="project-tech">
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=html" alt="HTML5" class="tech-icon">
+                                        <span class="tech-name">HTML5</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=css" alt="CSS3" class="tech-icon">
+                                        <span class="tech-name">CSS3</span>
+                                    </div>
+                                    
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i=js" alt="JavaScript" class="tech-icon">
+                                        <span class="tech-name">JavaScript</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="project-links">
+                                
+                                <a href="https://github.com/LiQuiDsKR/LostCities" 
+                                   target="_blank" 
+                                   class="project-link "
+                                   >
+                                    <span>GitHub </span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                
+                                
+                                <a href="https://liquidskr.github.io/LostCities/" target="_blank" class="project-link">
+                                    <span>서비스 링크</span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- 기술 스택 섹션 -->
+    <section class="skills-section" id="skills">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Tech Stack</span>
+                <span class="title-ko">기술 스택</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="skills-categories">
+                
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            
+                            
+                        </span>
+                        언어
+                        
+                    </h3>
+                    <div class="skills-list">
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=python" alt="Python" class="skill-icon-img">
+                                
+                                <span class="skill-name">Python</span>
+                                
+                                <span class="skill-level">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="90"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=cs" alt="C#" class="skill-icon-img">
+                                
+                                <span class="skill-name">C#</span>
+                                
+                                <span class="skill-level">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="75"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=java" alt="Java" class="skill-icon-img">
+                                
+                                <span class="skill-name">Java</span>
+                                
+                                <span class="skill-level">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="70"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=js" alt="JavaScript" class="skill-icon-img">
+                                
+                                <span class="skill-name">JavaScript</span>
+                                
+                                <span class="skill-level">60%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="60"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=kotlin" alt="Kotlin" class="skill-icon-img">
+                                
+                                <span class="skill-name">Kotlin</span>
+                                
+                                <span class="skill-level">40%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="40"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=mysql" alt="SQL" class="skill-icon-img">
+                                
+                                <span class="skill-name">SQL</span>
+                                
+                                <span class="skill-level">20%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="20"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            
+                            
+                        </span>
+                        라이브러리
+                        
+                    </h3>
+                    <div class="skills-list">
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=flask" alt="Flask" class="skill-icon-img">
+                                
+                                <span class="skill-name">Flask</span>
+                                
+                                <span class="skill-level">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="90"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=unity" alt="Unity" class="skill-icon-img">
+                                
+                                <span class="skill-name">Unity</span>
+                                
+                                <span class="skill-level">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="80"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android" class="skill-icon-img">
+                                
+                                <span class="skill-name">Android</span>
+                                
+                                <span class="skill-level">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="70"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="static/images/stacks/mariadb.png" alt="MariaDB" class="skill-icon-img">
+                                
+                                <span class="skill-name">MariaDB</span>
+                                
+                                <span class="skill-level">65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="65"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=nodejs" alt="Node.js" class="skill-icon-img">
+                                
+                                <span class="skill-name">Node.js</span>
+                                
+                                <span class="skill-level">55%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="55"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            
+                            
+                        </span>
+                        클라우드/배포
+                        
+                    </h3>
+                    <div class="skills-list">
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=gcp" alt="Google Cloud" class="skill-icon-img">
+                                
+                                <span class="skill-name">Google Cloud</span>
+                                
+                                <span class="skill-level">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="90"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="static/images/stacks/oraclecloud.png" alt="Oracle Cloud" class="skill-icon-img">
+                                
+                                <span class="skill-name">Oracle Cloud</span>
+                                
+                                <span class="skill-level">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="75"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=aws" alt="AWS" class="skill-icon-img">
+                                
+                                <span class="skill-name">AWS</span>
+                                
+                                <span class="skill-level">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="70"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            
+                            
+                        </span>
+                        협업/문서
+                        
+                    </h3>
+                    <div class="skills-list">
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=notion" alt="Notion" class="skill-icon-img">
+                                
+                                <span class="skill-name">Notion</span>
+                                
+                                <span class="skill-level">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="95"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=github" alt="GitHub" class="skill-icon-img">
+                                
+                                <span class="skill-name">GitHub</span>
+                                
+                                <span class="skill-level">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="80"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            
+                            
+                        </span>
+                        디자인
+                        
+                    </h3>
+                    <div class="skills-list">
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="static/images/stacks/powerpoint.png" alt="PowerPoint" class="skill-icon-img">
+                                
+                                <span class="skill-name">PowerPoint</span>
+                                
+                                <span class="skill-tooltip-icon" onclick="showSkillTooltip(event, '파워포인트 세부 기능을 활용하여 대부분의 디자인 역량을 커버할 수 있습니다.')">❓</span>
+                                
+                                <span class="skill-level">100%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="100"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=photoshop" alt="Photoshop" class="skill-icon-img">
+                                
+                                <span class="skill-name">Photoshop</span>
+                                
+                                <span class="skill-level">45%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="45"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                
+                                <img src="https://skillicons.dev/icons?i=figma" alt="Figma" class="skill-icon-img">
+                                
+                                <span class="skill-name">Figma</span>
+                                
+                                <span class="skill-level">20%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="20"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 이재형. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://github.com/LiQuiDsKR" target="_blank" class="social-link">GitHub</a>
+                <a href="mailto:littleplayer777@gmail.com" class="social-link">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="static/js/main.js"></script>
+</body>
+</html>
