@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills - {{ profile.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">{{ profile.name }}</a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/projects" class="nav-link">Projects</a></li>
+                <li><a href="/skills" class="nav-link active">Skills</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title text-reveal">기술 스택</h1>
+            <p class="page-subtitle text-reveal delay-1">사용 가능한 기술과 도구들입니다</p>
+        </div>
+    </section>
+
+    <section class="skills-section">
+        <div class="container">
+            <div class="skills-categories">
+                {% for category, skills in tech_stack.items() %}
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            {% if category == 'languages' %}💻
+                            {% elif category == 'frameworks' %}🔧
+                            {% elif category == 'tools' %}🛠️
+                            {% endif %}
+                        </span>
+                        {{ category|upper }}
+                    </h3>
+                    <div class="skills-list">
+                        {% for skill in skills %}
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-icon">{{ skill.icon }}</span>
+                                <span class="skill-name">{{ skill.name }}</span>
+                                <span class="skill-level">{{ skill.level }}%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="{{ skill.level }}"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 {{ profile.name }}. All rights reserved.</p>
+            <div class="social-links">
+                <a href="{{ profile.github }}" target="_blank">GitHub</a>
+                <a href="{{ profile.linkedin }}" target="_blank">LinkedIn</a>
+                <a href="mailto:{{ profile.email }}">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

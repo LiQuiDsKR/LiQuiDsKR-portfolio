@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개발자 이재형 포트폴리오</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- 다크/라이트 모드 토글 -->
+    <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+
+    <!-- 네비게이션 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#home" class="logo">liquidskr</a>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#value" class="nav-link" data-section="value">Value</a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+                <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 스크롤 진행 바 -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Hero 섹션 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-wrapper">
+                <div class="hero-profile text-reveal">
+                    <div class="profile-image-wrapper">
+                        <img src="{{ url_for('static', filename='images/profile.png') }}" alt="프로필 사진" class="profile-image">
+                    </div>
+                </div>
+                
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="text-reveal delay-1">안녕하세요,</span>
+                        <span class="text-reveal delay-2">개발자 이재형입니다.</span>
+                    </h1>
+                    <p class="hero-subtitle text-reveal delay-3">Full Stack Developer</p>
+                    <div class="hero-buttons text-reveal delay-4">
+                        <a href="#projects" class="btn btn-primary btn-glow">프로젝트 보기</a>
+                        <a href="{{ profile.github }}" target="_blank" class="btn btn-secondary">GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-decoration">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+                <div class="particles" id="particles"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value 섹션 -->
+    <section class="value-section" id="value">
+        <div class="container">
+            <div class="value-content">
+                <h2 class="section-title" data-scroll>
+                    <span class="title-en">Value</span>
+                    <span class="title-ko">가치관</span>
+                    <span class="title-underline"></span>
+                </h2>
+                
+                <div class="paradigm-story">
+                    <div class="story-part" data-scroll>
+                        <h3 class="paradigm-title-en">Paradigm</h3>
+                        <h4 class="paradigm-title-ko">패러다임</h4>
+                    </div>
+                    
+                    <div class="story-part story-spacing" data-scroll>
+                        <p class="paradigm-definition">같은 시대의 사람들의 견해나 생각을 규정하고 있는 테두리나 인식의 체계.</p>
+                    </div>
+                    
+                    <div class="story-part story-spacing-large" data-scroll>
+                        <p class="paradigm-message">저는 <span class="highlight-mint">패러다임</span>을 깨부수는 개발자가 되고 싶습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Projects</span>
+                <span class="title-ko">프로젝트</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="projects-grid">
+                {% for project in projects %}
+                <div class="project-card" data-scroll>
+                    <div class="project-card-inner">
+                        <div class="project-image">
+                            <img src="{{ url_for('static', filename='images/projects/' + project.image) }}" alt="{{ project.title }}" class="project-img">
+                            <div class="project-overlay">
+                                <div class="overlay-content">
+                                    <span class="overlay-text">자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <div class="project-meta-left">
+                                    <div class="project-category">{{ project.category }}</div>
+                                    <div class="project-date">{{ project.date_range }}</div>
+                                </div>
+                                <div class="project-type-tag">{{ project.type }}</div>
+                            </div>
+                            <h3 class="project-title">{{ project.title }}</h3>
+                            <p class="project-subtitle">{{ project.subtitle }}</p>
+                            <p class="project-description">{{ project.description }}</p>
+                            
+                            <div class="project-tech-section">
+                                <h4 class="tech-section-title">기술 스택</h4>
+                                <div class="project-tech">
+                                    {% for tech in project.tech_stack %}
+                                    <div class="tech-icon-wrapper">
+                                        <img src="https://skillicons.dev/icons?i={{ tech_icons.get(tech, tech.lower()) }}" alt="{{ tech }}" class="tech-icon">
+                                        <span class="tech-name">{{ tech }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <div class="project-links">
+                                {% if project.github_url %}
+                                <a href="{% if project.get('github_private') %}#{% else %}{{ project.github_url }}{% endif %}" 
+                                   target="_blank" 
+                                   class="project-link {% if project.get('github_private') %}private-repo{% endif %}"
+                                   {% if project.get('github_private') %}onclick="showPrivateRepoMessage(event)"{% endif %}>
+                                    <span>GitHub {% if project.get('github_private') %} (Private){% endif %}</span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                {% endif %}
+                                {% if project.service_url %}
+                                <a href="{{ project.service_url }}" target="_blank" class="project-link">
+                                    <span>서비스 링크</span>
+                                    <span class="arrow">→</span>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- 기술 스택 섹션 -->
+    <section class="skills-section" id="skills">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Tech Stack</span>
+                <span class="title-ko">기술 스택</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="skills-categories">
+                {% for category, skills in tech_stack.items() %}
+                <div class="skill-category" data-scroll>
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            {% if category == 'languages' %}
+                            {% elif category == 'libraries' %}
+                            {% elif category == 'cloud' %}
+                            {% elif category == 'collaboration' %}
+                            {% elif category == 'design' %}
+                            {% endif %}
+                        </span>
+                        {% if category == 'languages' %}언어
+                        {% elif category == 'libraries' %}라이브러리
+                        {% elif category == 'cloud' %}클라우드/배포
+                        {% elif category == 'collaboration' %}협업/문서
+                        {% elif category == 'design' %}디자인
+                        {% endif %}
+                    </h3>
+                    <div class="skills-list">
+                        {% for skill in skills %}
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                {% if skill.get('custom_icon') %}
+                                <img src="{{ url_for('static', filename='images/' + skill.custom_icon) }}" alt="{{ skill.name }}" class="skill-icon-img">
+                                {% elif tech_icons.get(skill.name) %}
+                                <img src="https://skillicons.dev/icons?i={{ tech_icons[skill.name] }}" alt="{{ skill.name }}" class="skill-icon-img">
+                                {% endif %}
+                                <span class="skill-name">{{ skill.name }}</span>
+                                {% if skill.get('tooltip') %}
+                                <span class="skill-tooltip-icon" onclick="showSkillTooltip(event, '{{ skill.tooltip }}')">❓</span>
+                                {% endif %}
+                                <span class="skill-level">{{ skill.level }}%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="{{ skill.level }}"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 {{ profile.name }}. All rights reserved.</p>
+            <div class="social-links">
+                <a href="{{ profile.github }}" target="_blank" class="social-link">GitHub</a>
+                <a href="mailto:{{ profile.email }}" class="social-link">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
