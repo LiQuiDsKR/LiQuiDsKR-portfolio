@@ -69,10 +69,6 @@ body {
     box-shadow: 0 4px 20px var(--shadow-color);
 }
 
-.theme-toggle:hover {
-    transform: scale(1.1) rotate(15deg);
-}
-
 .theme-toggle .sun-icon {
     display: none;
 }
@@ -434,7 +430,7 @@ body {
 }
 
 .paradigm-definition {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--text-secondary);
     font-style: italic;
     line-height: 2;
@@ -1038,6 +1034,47 @@ body {
         line-height: 1.5;
     }
 }
+
+/* 모바일(작은 화면)에서 제목 글씨크기 조정 */
+@media (max-width: 768px) {
+    .paradigm-title-en {
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--mint-color);
+        letter-spacing: 2px;
+    }
+
+    .paradigm-title-ko {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .paradigm-definition{
+        font-size: 1.2rem;
+    }
+
+    .title-en {
+        font-size: 2rem;
+
+    }
+
+    .title-ko {
+        font-size: 1.5rem;
+    }
+
+    /* 모바일에서만 패러다임 정의 줄바꿈 처리 */
+    .paradigm-definition .line-break-mobile {
+        display: inline;
+    }
+
+    @media (max-width: 768px) {
+        .paradigm-definition .line-break-mobile {
+            display: block;
+        }
+    }
+}
+
 
 /* 모바일(작은 화면)에서 프로젝트 카드 최적화 */
 @media (max-width: 480px) {
