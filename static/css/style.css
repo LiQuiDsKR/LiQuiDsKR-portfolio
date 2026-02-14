@@ -1371,7 +1371,8 @@ body {
 .modal {
     position: fixed;
     inset: 0;
-    display: flex;
+    /* 숨김을 기본으로 하고, .show에서 flex로 표시합니다 (브라우저 호환성 개선) */
+    display: none;
     align-items: center;
     justify-content: center;
     background: rgba(0,0,0,0.6);
@@ -1382,6 +1383,8 @@ body {
 }
 
 .modal.show {
+    /* 표시될 때는 flex 레이아웃으로 동작하도록 합니다 */
+    display: flex;
     opacity: 1;
     visibility: visible;
 }
@@ -1403,6 +1406,15 @@ body {
     height: auto;
     display: block;
     border-radius: 8px;
+}
+
+/* QR 이미지에 대해 명시적인 최대 너비를 설정해서 브라우저별 렌더링 차이를 줄입니다 */
+#qrImage {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .modal-close {
