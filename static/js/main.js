@@ -69,6 +69,16 @@ navLinks.forEach(link => {
         // 활성 링크 업데이트
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
+        
+        // Update URL hash without jumping and trigger focus/highlight
+        try {
+            history.pushState(null, '', `#${targetId}`);
+        } catch (err) {
+            // fallback
+            location.hash = `#${targetId}`;
+        }
+        // apply focus/highlight (handleHashNavigation also works on hashchange)
+        if (typeof handleHashNavigation === 'function') handleHashNavigation();
     });
 });
 
@@ -237,6 +247,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                     top: offsetTop,
                     behavior: 'smooth'
                 });
+                // update URL hash and trigger focus
+                try {
+                    history.pushState(null, '', href);
+                } catch (err) {
+                    location.hash = href;
+                }
+                if (typeof handleHashNavigation === 'function') handleHashNavigation();
             }
         }
     });
@@ -313,6 +330,152 @@ function showPrivateRepoMessage(event) {
         }, 300);
     }, 3000);
 }
+
+// 후원 정보 복사 및 토스트 표시
+function copySupportInfo() {
+    const info = `이메일: littleplayer777@gmail.com\n계좌: 국민은행 123-456-789 (예금주 이재형)`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(info).then(() => {
+            showToast('복사되었습니다: 이메일/계좌 정보');
+        }).catch(() => {
+            showToast('복사에 실패했습니다');
+        });
+    } else {
+        // 레거시 복사 방식
+        const textarea = document.createElement('textarea');
+        textarea.value = info;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showToast('복사되었습니다: 이메일/계좌 정보');
+        } catch (e) {
+            showToast('복사에 실패했습니다');
+        }
+        textarea.remove();
+    }
+}
+
+// 범용 토스트 생성 함수
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-message';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+        }, 300);
+    }, 3000);
+}
+
+// QR 모달 제어
+function showQrModal(src) {
+    const modal = document.getElementById('qrModal');
+    const img = document.getElementById('qrImage');
+    if (!modal || !img) return;
+    if (src) {
+        img.src = src;
+    } else {
+        // fallback: use first thumb if available
+        const firstThumb = document.querySelector('.qr-thumb');
+        if (firstThumb && firstThumb.getAttribute('data-src')) {
+            img.src = firstThumb.getAttribute('data-src');
+        }
+    }
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+}
+
+function hideQrModal() {
+    const modal = document.getElementById('qrModal');
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+}
+
+// 이벤트 바인딩: 버튼 클릭으로 모달 열기/닫기
+document.addEventListener('click', (e) => {
+    const qrBtn = e.target.closest('#showQrBtn');
+    if (qrBtn) {
+        const src = qrBtn.getAttribute('data-qr') || 'static/images/qr-donation.png';
+        showQrModal(src);
+        return;
+    }
+
+    // 모달 외부 클릭 시 닫기
+    if (e.target && e.target.id === 'qrModal') {
+        hideQrModal();
+    }
+});
+
+// 모달 내부 닫기 버튼과 ESC 처리
+document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('qrModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', hideQrModal);
+    
+    // QR thumbnail handlers
+    const thumbs = document.querySelectorAll('.qr-thumb');
+    if (thumbs.length) {
+        thumbs.forEach(t => {
+            t.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                const src = t.getAttribute('data-src');
+                const img = document.getElementById('qrImage');
+                if (img && src) img.src = src;
+                thumbs.forEach(x => x.classList.remove('active'));
+                t.classList.add('active');
+            });
+        });
+        // mark first active
+        thumbs[0].classList.add('active');
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hideQrModal();
+});
+
+// Handle hash navigation: smooth scroll to section and add temporary focus style
+function handleHashNavigation() {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const id = hash.replace('#', '');
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    // Calculate offset (account for fixed navbar height)
+    const offset = 80;
+    const top = target.offsetTop - offset;
+
+    // Smooth scroll
+    window.scrollTo({ top, behavior: 'smooth' });
+
+    // Add temporary focus class for visual cue
+    target.classList.add('section-focus');
+    // Remove after 2.2s
+    setTimeout(() => target.classList.remove('section-focus'), 2200);
+
+    // Also move keyboard focus for accessibility
+    try {
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+    } catch (e) {
+        // ignore
+    }
+}
+
+// Run on load (after DOM ready) and on hashchange
+document.addEventListener('DOMContentLoaded', () => {
+    // small timeout to allow other onload scroll adjustments
+    setTimeout(() => handleHashNavigation(), 80);
+});
+
+window.addEventListener('hashchange', () => handleHashNavigation());
 
 // 툴팁 위치 재계산 함수
 function repositionTooltip(bubble, icon) {

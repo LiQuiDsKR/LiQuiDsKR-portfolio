@@ -25,6 +25,8 @@
                 <li><a href="#value" class="nav-link" data-section="value">Value</a></li>
                 <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
                 <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                <li><a href="#donate" class="nav-link" data-section="donate">Donate</a></li>
             </ul>
         </div>
     </nav>
@@ -736,6 +738,26 @@
                 <p>GitHub: <a href="https://github.com/LiQuiDsKR" target="_blank">https://github.com/LiQuiDsKR</a></p>
                 <p class="contact-note">간단한 문의는 위 이메일로 보내주시면 <span class="line-break-mobile">최대한 빠르게 답변드리겠습니다.</span></p>
             </div>
+
+            <!-- donation removed from contact; moved to separate section -->
+        </div>
+    </section>
+
+    <!-- Donate 섹션 (별도 섹션, Contact와 동일한 스타일) -->
+    <section class="contact-section donate-section" id="donate">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Donate</span>
+                <span class="title-ko">후원하기</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="contact-content" data-scroll>
+                <p class="donation-intro">작은 응원이 큰 힘이 됩니다. 커피 한 잔으로 응원해주시면 감사하겠습니다 .</p>
+                <div class="donation-buttons centered">
+                    <button type="button" class="btn btn-primary btn-donate-large" id="showQrBtn" data-qr="static/images/donate/1900.png">후원 QR 보기</button>
+                </div>
+            
+            </div>
         </div>
     </section>
 
@@ -750,5 +772,19 @@
     </footer>
 
     <script src="static/js/main.js"></script>
+
+    <!-- QR Modal -->
+    <div id="qrModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" id="qrModalClose" aria-label="닫기">&times;</button>
+            <img id="qrImage" src="static/images/donate/1900.png" alt="후원 QR 코드">
+            <div class="qr-thumbs">
+                <button class="qr-thumb" data-src="static/images/donate/1900.png">₩1,900</button>
+                <button class="qr-thumb" data-src="static/images/donate/4900.png">₩4,900</button>
+                <button class="qr-thumb" data-src="static/images/donate/9900.png">₩9,900</button>
+            </div>
+            <p class="modal-caption">원하는 금액의 버튼을 눌러 QR 이미지를 확인하세요.</p>
+        </div>
+    </div>
 </body>
 </html>
