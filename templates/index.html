@@ -25,6 +25,8 @@
                 <li><a href="#value" class="nav-link" data-section="value">Value</a></li>
                 <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
                 <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                <li><a href="#donate" class="nav-link" data-section="donate">Donate</a></li>
             </ul>
         </div>
     </nav>
@@ -101,10 +103,10 @@
             </h2>
             <div class="projects-grid">
                 {% for project in projects %}
-                <div class="project-card" data-scroll>
+                <div class="project-card" data-scroll data-project-id="{{ project.id }}">
                     <div class="project-card-inner">
                         <div class="project-image">
-                            <img src="{{ url_for('static', filename='images/projects/' + project.image) }}" alt="{{ project.title }}" class="project-img">
+                            <img src="{{ url_for('static', filename=project.main_image) }}" alt="{{ project.title }}" class="project-img">
                             <div class="project-overlay">
                                 <div class="overlay-content">
                                     <span class="overlay-text">자세히 보기</span>
@@ -214,6 +216,43 @@
         </div>
     </section>
 
+    <!-- Contact 섹션 -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Contact</span>
+                <span class="title-ko">문의하기</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="aspiration-content" data-scroll>
+                <p><span class="highlight-mint">일 벌리는 것</span>과 <span class="highlight-mint">새로운 도전</span>을 선호합니다.</p>
+                <p>좋은 아이디어와 협업 제안은 <span class="highlight-mint">언제나 환영</span>입니다.</p>
+            </div>
+            <div class="contact-content" data-scroll>
+                <p>이메일: <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+                <p>GitHub: <a href="{{ profile.github }}" target="_blank">{{ profile.github }}</a></p>
+                <p class="contact-note">간단한 문의는 위 이메일로 보내주시면 <span class="line-break-mobile">최대한 빠르게 답변드리겠습니다.</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donate 섹션 -->
+    <section class="contact-section donate-section" id="donate">
+        <div class="container">
+            <h2 class="section-title" data-scroll>
+                <span class="title-en">Donate</span>
+                <span class="title-ko">후원하기</span>
+                <span class="title-underline"></span>
+            </h2>
+            <div class="contact-content" data-scroll>
+                <p class="donation-intro">작은 응원이 큰 힘이 됩니다. 커피 한 잔으로 응원해주시면 감사하겠습니다 .</p>
+                <div class="donation-buttons centered">
+                    <button type="button" class="btn btn-primary btn-donate-large" id="showQrBtn" data-qr="{{ url_for('static', filename='images/donate/1900.png') }}">후원 QR 보기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -226,5 +265,51 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal project-modal" aria-hidden="true">
+        <div class="project-modal-content">
+            <button class="modal-close" id="projectModalClose" aria-label="닫기">&times;</button>
+            <div class="project-modal-body">
+                <div class="project-modal-image-wrap">
+                    <img id="projectModalImage" src="" alt="" class="project-modal-img">
+                    <button class="gallery-nav gallery-prev" id="galleryPrev" aria-label="이전">&#8249;</button>
+                    <button class="gallery-nav gallery-next" id="galleryNext" aria-label="다음">&#8250;</button>
+                    <div class="gallery-dots" id="galleryDots"></div>
+                </div>
+                <div class="project-modal-info">
+                    <div class="project-modal-meta">
+                        <span id="projectModalCategory" class="project-category"></span>
+                        <span id="projectModalType" class="project-type-tag"></span>
+                    </div>
+                    <h2 id="projectModalTitle" class="project-modal-title"></h2>
+                    <p id="projectModalSubtitle" class="project-modal-subtitle"></p>
+                    <p id="projectModalDate" class="project-modal-date"></p>
+                    <p id="projectModalDetails" class="project-modal-details"></p>
+                    <div id="projectModalFeatures" class="project-modal-features"></div>
+                    <p id="projectModalRole" class="project-modal-role"></p>
+                    <div class="project-tech-section">
+                        <h4 class="tech-section-title">기술 스택</h4>
+                        <div id="projectModalTech" class="project-tech"></div>
+                    </div>
+                    <div id="projectModalLinks" class="project-links"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div id="qrModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" id="qrModalClose" aria-label="닫기">&times;</button>
+            <img id="qrImage" src="{{ url_for('static', filename='images/donate/1900.png') }}" alt="후원 QR 코드">
+            <div class="qr-thumbs">
+                <button class="qr-thumb" data-src="{{ url_for('static', filename='images/donate/1900.png') }}">₩1,900</button>
+                <button class="qr-thumb" data-src="{{ url_for('static', filename='images/donate/4900.png') }}">₩4,900</button>
+                <button class="qr-thumb" data-src="{{ url_for('static', filename='images/donate/9900.png') }}">₩9,900</button>
+            </div>
+            <p class="modal-caption">원하는 금액의 버튼을 눌러 QR 이미지를 확인하세요.</p>
+        </div>
+    </div>
 </body>
 </html>

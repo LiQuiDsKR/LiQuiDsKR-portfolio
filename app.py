@@ -1,6 +1,7 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, abort
 from datetime import datetime
 import os
+import json
 
 app = Flask(__name__)
 
@@ -28,70 +29,34 @@ TECH_ICONS = {
     'GitHub': 'github',
     'PowerPoint': 'powerpoint',
     'Photoshop': 'photoshop',
-    'Figma': 'figma'
+    'Figma': 'figma',
+    'Supabase': 'supabase',
+    'Firebase': 'firebase',
 }
 
-# 프로젝트 데이터 (쉽게 추가/수정 가능)
-PROJECTS = [
-    {
-        'id': 1,
-        'title': 'AVOID',
-        'description': 'Unity 기반 3D 모바일 게임입니다. 개인 프로젝트로 Unity 엔진을 활용하여 개발했습니다.',
-        'tech_stack': ['Unity', 'C#'],
-        'image': 'project1.jpg',
-        'github_url': 'https://github.com/LiQuiDsKR/Avoid',
-        'github_private': True,
-        'service_url': None,
-        'date': '2025-11',
-        'date_range': '2025.11 ~ 현재',
-        'category': '게임',
-        'subtitle': 'Unity 게임 프로젝트',
-        'type': 'Personal'
-    },
-    {
-        'id': 2,
-        'title': '똑똑이',
-        'description': 'POSCO GY솔루션 외주 프로젝트로, 공기구 대여반납 및 재고 관리 서비스입니다. Java 서버, 관리자·사용자용 모바일 앱, 관리 대시보드를 개발했습니다.',
-        'tech_stack': ['Spring', 'SQLite', 'Android', 'Kotlin'],
-        'image': 'project2.jpg',
-        'github_url': 'https://github.com/LiQuiDsKR/MrSmart',
-        'service_url': None,
-        'date': '2023-10',
-        'date_range': '2023.10 ~ 2024.01',
-        'category': '모바일 앱',
-        'subtitle': '공기구 대여반납 및 재고 관리 서비스',
-        'type': 'Team'
-    },
-    {
-        'id': 3,
-        'title': '재형닷컴',
-        'description': '모바일게임 \'마피아42\' 서드파티 서비스입니다. Google Cloud Platform 기반 웹 서버를 구축하고 웹 프레임워크를 이용한 서비스 로직을 구현했습니다.',
-        'tech_stack': ['Google Cloud', 'Flask', 'HTML5', 'CSS3', 'JavaScript'],
-        'image': 'project3.jpg',
-        'github_url': 'https://github.com/LiQuiDsKR/MafiaSupportWeb',
-        'github_private': True,
-        'service_url': 'https://재형.com',
-        'date': '2024-08',
-        'date_range': '2024.08 ~ 현재',
-        'category': '웹',
-        'subtitle': '모바일게임 \'마피아42\' 서드파티 서비스',
-        'type': 'Personal'
-    },
-    {
-        'id': 4,
-        'title': '로스트 시티',
-        'description': '실존하는 보드 게임 \'로스트 시티\'의 웹 게임 버전입니다. 2인용 카드 게임을 웹 브라우저에서 즐길 수 있도록 구현했습니다.',
-        'tech_stack': ['HTML5', 'CSS3', 'JavaScript'],
-        'image': 'project4.jpg',
-        'github_url': 'https://github.com/LiQuiDsKR/LostCities',
-        'service_url': 'https://liquidskr.github.io/LostCities/',
-        'date': '2024-01',
-        'date_range': '2024.01',
-        'category': '웹',
-        'subtitle': '보드 게임 웹 구현',
-        'type': 'Personal'
-    },
-]
+def load_projects():
+    """data/projects.json에서 프로젝트 데이터 로드"""
+    json_path = os.path.join(os.path.dirname(__file__), 'data', 'projects.json')
+    with open(json_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def resolve_main_image(project):
+    """프로젝트의 대표 이미지 static 경로 반환"""
+    folder = project.get('image', '')
+    images = project.get('images', [])
+
+    if images:
+        first = images[0]
+        path = os.path.join(app.static_folder, 'images', 'projects', folder, first)
+        if os.path.exists(path):
+            return f"images/projects/{folder}/{first}"
+    else:
+        # 구버전 단일 파일 호환
+        path = os.path.join(app.static_folder, 'images', 'projects', folder)
+        if os.path.exists(path):
+            return f"images/projects/{folder}"
+
+    return 'images/noimg.png'
 
 # 기술 스택 데이터
 TECH_STACK = {
@@ -135,17 +100,17 @@ PROFILE = {
 
 @app.route('/')
 def index():
-    """메인 페이지 - SPA 스타일"""
-    # 프로젝트 이미지 존재 여부 확인
+    """메인 페이지"""
+    projects = load_projects()
+
+    # 프로젝트 대표 이미지 경로 해석
     projects_with_images = []
-    for project in PROJECTS:
+    for project in projects:
         project_copy = project.copy()
-        image_path = os.path.join(app.static_folder, 'images', 'projects', project['image'])
-        if not os.path.exists(image_path):
-            project_copy['image'] = 'noimg.png'
+        project_copy['main_image'] = resolve_main_image(project)
         projects_with_images.append(project_copy)
-    
-    return render_template('index.html', 
+
+    return render_template('index.html',
                          profile=PROFILE,
                          projects=projects_with_images,
                          tech_stack=TECH_STACK,
@@ -153,8 +118,27 @@ def index():
 
 @app.route('/api/projects')
 def api_projects():
-    """프로젝트 데이터 API"""
-    return jsonify(PROJECTS)
+    """전체 프로젝트 목록 API"""
+    return jsonify(load_projects())
+
+@app.route('/api/projects/<int:project_id>')
+def api_project_detail(project_id):
+    """프로젝트 상세 API"""
+    projects = load_projects()
+    project = next((p for p in projects if p['id'] == project_id), None)
+    if project is None:
+        abort(404)
+
+    project_copy = project.copy()
+    project_copy['main_image'] = resolve_main_image(project)
+
+    # tech_icons 정보 추가
+    project_copy['tech_icons'] = {
+        tech: TECH_ICONS.get(tech, tech.lower())
+        for tech in project['tech_stack']
+    }
+
+    return jsonify(project_copy)
 
 @app.route('/api/skills')
 def api_skills():

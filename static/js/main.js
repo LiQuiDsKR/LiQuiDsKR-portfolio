@@ -581,3 +581,203 @@ document.addEventListener('keydown', (e) => {
         closeTooltip();
     }
 });
+
+// =====================
+// 프로젝트 상세 모달
+// =====================
+
+// 갤러리 상태
+let _galleryImages = [];
+let _galleryIndex = 0;
+let _galleryFolder = '';
+
+// 정적 배포 여부에 따라 static 경로 prefix 결정
+// window.STATIC_BASE 가 정의되어 있으면 사용 (정적 HTML), 없으면 /static (Flask)
+function staticPath(path) {
+    const base = (window.STATIC_BASE !== undefined) ? window.STATIC_BASE : '/static';
+    return `${base}/${path}`;
+}
+
+function setGalleryIndex(idx) {
+    if (!_galleryImages.length) return;
+    _galleryIndex = (idx + _galleryImages.length) % _galleryImages.length;
+
+    const img = document.getElementById('projectModalImage');
+    img.src = staticPath(`images/projects/${_galleryFolder}/${_galleryImages[_galleryIndex]}`);
+
+    // 닷 업데이트
+    document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === _galleryIndex);
+    });
+
+    // 화살표 표시 여부
+    const show = _galleryImages.length > 1;
+    document.getElementById('galleryPrev').style.display = show ? '' : 'none';
+    document.getElementById('galleryNext').style.display = show ? '' : 'none';
+}
+
+function renderProjectModal(project) {
+    const modal = document.getElementById('projectModal');
+    if (!modal) return;
+
+    // 갤러리 초기화
+    _galleryFolder = project.image;
+    _galleryImages = project.images && project.images.length ? project.images : [];
+    _galleryIndex = 0;
+
+    const img = document.getElementById('projectModalImage');
+    img.alt = project.title;
+
+    // 닷 생성
+    const dotsEl = document.getElementById('galleryDots');
+    dotsEl.innerHTML = _galleryImages.length > 1
+        ? _galleryImages.map((_, i) => `<button class="gallery-dot${i === 0 ? ' active' : ''}" data-idx="${i}" aria-label="${i+1}번 이미지"></button>`).join('')
+        : '';
+
+    // 첫 이미지 세팅
+    if (_galleryImages.length > 0) {
+        setGalleryIndex(0);
+    } else {
+        img.src = staticPath(project.main_image);
+    }
+
+    // 메타
+    document.getElementById('projectModalCategory').textContent = project.category;
+    document.getElementById('projectModalType').textContent = project.type;
+
+    // 제목/부제목
+    document.getElementById('projectModalTitle').textContent = project.title;
+    document.getElementById('projectModalSubtitle').textContent = project.subtitle || '';
+    document.getElementById('projectModalDate').textContent = project.date_range || '';
+
+    // 상세 설명
+    document.getElementById('projectModalDetails').textContent = project.details || project.description;
+
+    // 주요 기능
+    const featuresEl = document.getElementById('projectModalFeatures');
+    if (project.features && project.features.length > 0) {
+        featuresEl.innerHTML = `
+            <h4 class="tech-section-title">주요 기능</h4>
+            <ul class="feature-list">
+                ${project.features.map(f => `<li>${f}</li>`).join('')}
+            </ul>`;
+        featuresEl.style.display = '';
+    } else {
+        featuresEl.style.display = 'none';
+    }
+
+    // 역할
+    const roleEl = document.getElementById('projectModalRole');
+    if (project.role) {
+        roleEl.textContent = project.role;
+        roleEl.style.display = '';
+    } else {
+        roleEl.style.display = 'none';
+    }
+
+    // 기술 스택
+    const techEl = document.getElementById('projectModalTech');
+    techEl.innerHTML = project.tech_stack.map(tech => {
+        const icon = project.tech_icons && project.tech_icons[tech]
+            ? `https://skillicons.dev/icons?i=${project.tech_icons[tech]}`
+            : null;
+        return `<div class="tech-icon-wrapper">
+            ${icon ? `<img src="${icon}" alt="${tech}" class="tech-icon">` : ''}
+            <span class="tech-name">${tech}</span>
+        </div>`;
+    }).join('');
+
+    // 링크
+    const linksEl = document.getElementById('projectModalLinks');
+    let linksHtml = '';
+    if (project.github_url) {
+        const isPrivate = project.github_private;
+        linksHtml += `<a href="${isPrivate ? '#' : project.github_url}"
+            ${!isPrivate ? 'target="_blank"' : ''}
+            class="project-link${isPrivate ? ' private-repo' : ''}"
+            ${isPrivate ? 'onclick="showPrivateRepoMessage(event)"' : ''}>
+            <span>GitHub${isPrivate ? ' (Private)' : ''}</span>
+            <span class="arrow">→</span>
+        </a>`;
+    }
+    if (project.service_url) {
+        linksHtml += `<a href="${project.service_url}" target="_blank" class="project-link">
+            <span>서비스 링크</span>
+            <span class="arrow">→</span>
+        </a>`;
+    }
+    linksEl.innerHTML = linksHtml;
+
+    // 모달 열기
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+}
+
+function openProjectModal(projectId) {
+    // 정적 모드: window.PROJECTS_DATA 가 있으면 API 호출 없이 바로 사용
+    if (window.PROJECTS_DATA) {
+        const project = window.PROJECTS_DATA.find(p => p.id === projectId);
+        if (project) {
+            renderProjectModal(project);
+            return;
+        }
+    }
+
+    // Flask 모드: API fetch
+    fetch(`/api/projects/${projectId}`)
+        .then(res => {
+            if (!res.ok) throw new Error('프로젝트 데이터를 불러올 수 없습니다.');
+            return res.json();
+        })
+        .then(project => renderProjectModal(project))
+        .catch(err => {
+            showToast('프로젝트 정보를 불러오지 못했습니다.');
+            console.error(err);
+        });
+}
+
+function closeProjectModal() {
+    const modal = document.getElementById('projectModal');
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+}
+
+// 프로젝트 카드 클릭 이벤트 등록
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.project-card[data-project-id]').forEach(card => {
+        card.addEventListener('click', () => {
+            const id = card.getAttribute('data-project-id');
+            openProjectModal(Number(id));
+        });
+        card.style.cursor = 'pointer';
+    });
+
+    // 모달 닫기 버튼
+    const closeBtn = document.getElementById('projectModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', closeProjectModal);
+
+    // 갤러리 네비게이션
+    document.getElementById('galleryPrev')?.addEventListener('click', () => setGalleryIndex(_galleryIndex - 1));
+    document.getElementById('galleryNext')?.addEventListener('click', () => setGalleryIndex(_galleryIndex + 1));
+
+    // 갤러리 닷 클릭 (동적 생성이므로 위임)
+    document.getElementById('galleryDots')?.addEventListener('click', (e) => {
+        const dot = e.target.closest('.gallery-dot');
+        if (dot) setGalleryIndex(Number(dot.getAttribute('data-idx')));
+    });
+});
+
+// 모달 외부 클릭 시 닫기
+document.addEventListener('click', (e) => {
+    if (e.target && e.target.id === 'projectModal') {
+        closeProjectModal();
+    }
+});
+
+// ESC 키로 프로젝트 모달 닫기
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeProjectModal();
+});
